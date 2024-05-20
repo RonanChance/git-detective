@@ -1,11 +1,11 @@
-export const tsCode = `    <script lang="ts">
+export const tsCode = `  <script lang="ts">
     import * as Accordion from "$lib/components/ui/accordion";
+    import * as Popover from "$lib/components/ui/popover";
+    import * as AlertDialog from "$lib/components/ui/alert-dialog";
     import { Input } from "$lib/components/ui/input";
     import { Button } from "$lib/components/ui/button/index.js";
     import { Octokit } from 'octokit';
     import { tsCode } from "$lib/components/codesnippet/codesnippet.js";
-    import * as Popover from "$lib/components/ui/popover";
-    import * as AlertDialog from "$lib/components/ui/alert-dialog";
 
     const octokit = new Octokit();
     let processing: boolean = false;
@@ -47,9 +47,15 @@ export const tsCode = `    <script lang="ts">
 
     async function fetchRepositories(): Promise<string[]> {
         if (abortController === null) throw new Error("AbortController not initialized");
-        const { data: repos } = await octokit.rest.repos.listForUser({ username, signal: abortController.signal });
-        repoListLength = repos.length;
-        return repos.map(repo => repo['commits_url'].slice(0, -6));
+        
+        try {
+            const { data: repos } = await octokit.rest.repos.listForUser({ username, signal: abortController.signal });
+            repoListLength = repos.length;
+            return repos.map(repo => repo['commits_url'].slice(0, -6));
+        } catch (error) {
+            handleSearchError(error);
+            throw new Error("Error fetching user repository list");
+        }
     }
 
     async function processRepositories(repositories: string[]): Promise<void> {
@@ -71,7 +77,7 @@ export const tsCode = `    <script lang="ts">
 
                 if (abortController.signal.aborted) throw new Error('AbortError');
             } catch (error) {
-                handleRepoProcessingError(error);
+                handleSearchError(error);
             }
         }
     }
@@ -119,15 +125,6 @@ export const tsCode = `    <script lang="ts">
             console.error("Error during search:", error);
             isToastVisible = true;
         }
-    }
-
-    function handleRepoProcessingError(error: any): void {
-    if (error instanceof Error && error.message === 'AbortError') {
-        throw new Error('AbortError');
-    } else {
-        console.error('Error processing repository:', error);
-        isToastVisible = true;
-    }
     }
 
     </script>
