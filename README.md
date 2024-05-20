@@ -1,38 +1,43 @@
-# create-svelte
+# GitDetective
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+![image](./static/apple-touch-icon.png)
 
-## Creating a project
+GitDetective scans public GitHub commits to retrieve usernames and emails associated with an account. 
 
-If you're seeing this, you've probably already done this step. Congrats!
+GitDetective is for educational and research purposes only.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Use of this tool must be in accordance with GitHub's [terms of service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service). GitDetective is not responsible for any misuse of the tool.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+License: MIT
 
-## Developing
+### Tech-Stack
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- **Frontend Framework**: [SvelteKit](https://kit.svelte.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **CSS Framework**: [TailwindCSS](https://tailwindcss.com/) (+ [Shadcn-Svelte](https://www.shadcn-svelte.com/))
+- **API**: [GitHub API](https://docs.github.com/en/rest)
+
+## Process
+
+1. Fetches a list of public repositories from the user profile using the GitHub API.
+
+2. Gets the 200 most recent commits for each public repository using the GitHub API.
+
+3. Displays the username(s) and email(s) if the author matches the provided account name.
+
+
+## Privacy
+
+All requests are client-side, meaning GitHub will know your IP address (and use of gitdetective.com). A VPN can cause requests to fail.
+
+Searches are between you and GitHub. This website is open-source, MIT-licensed, and does not collect search data. 
+
+## How to Host Locally
+
+Clone this repository, navigate to the git-detective directory and install dependencies with `npm install`. 
+
+Then start a development server:
 
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
