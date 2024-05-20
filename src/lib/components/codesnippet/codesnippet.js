@@ -6,14 +6,16 @@ export const tsCode = `  <script lang="ts">
     import { Button } from "$lib/components/ui/button/index.js";
     import { Octokit } from 'octokit';
     import { tsCode } from "$lib/components/codesnippet/codesnippet.js";
+    import { page } from '$app/stores'
 
     const octokit = new Octokit();
     let processing: boolean = false;
     let isToastVisible: boolean = false;
     let isDone: boolean = false;
+    let isError: boolean = false;
     let abortController: AbortController | null = null;
 
-    let username: string = "";
+    let username: string = $page.url.searchParams.get('q') || "";
     let usernameMapping: { [key: string]: string } = {};
     let emailMapping: { [key: string]: string } = {};
     let unknownMapping: { [key: string]: string } = {};
@@ -36,12 +38,12 @@ export const tsCode = `  <script lang="ts">
         try {
             const repositories = await fetchRepositories();
             await processRepositories(repositories);
+            isDone = true;
         } catch (error) {
             handleSearchError(error);
         } finally {
             processing = false;
             abortController = null;
-            if (repoListLength === repoCounter) isDone = true;
         } 
     }
 
@@ -70,7 +72,7 @@ export const tsCode = `  <script lang="ts">
                 if (!response.ok) throw new Error(\`Error fetching repo: \${response.statusText}\`);
                 const data = await response.json();
 
-                processCommits(data, repo);           
+                processCommits(data, repo);
                 repoCounter += 1;
 
                 await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -108,6 +110,7 @@ export const tsCode = `  <script lang="ts">
         commitCounter = 0;
         repoCounter = 0;
         repoListLength = 0;
+        isError = false;
         isDone = false;
     }
 
@@ -125,6 +128,7 @@ export const tsCode = `  <script lang="ts">
             console.error("Error during search:", error);
             isToastVisible = true;
         }
+        isError = true;
     }
 
     </script>
