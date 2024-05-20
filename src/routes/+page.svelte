@@ -161,7 +161,7 @@
         </form>
 
         <p class="text-center mt-6 px-6 font-normal text-black text-sm md:text-base lg:text-md">GitHub 
-            <a class="underline decoration-0 break-all text-sm md:text-base lg:text-md" href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service" target="_blank" rel="noreferrer"> Terms of Service</a>: Use GitDetective Responsibly
+            <a class="underline break-word text-sm md:text-base lg:text-md" href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service" target="_blank" rel="noreferrer"> Terms of Service</a>: Use GitDetective Responsibly
             <br />Rate Limit: 60 Requests / Hour
         </p>
 
@@ -286,7 +286,7 @@
             <Accordion.Item value="item-4">
                 <Accordion.Trigger>Can I See The Code?</Accordion.Trigger>
                     <Accordion.Content class="text-base">
-                    Yes. You can visit the <a href="https://github.com/RonanChance/git-detective" class="text-blue-600 underline">GitHub</a> to see more details.
+                    Yes. You can visit <a href="https://github.com/RonanChance/git-detective" class="text-blue-600 underline">GitHub</a> to see more details.
                     <br />
                     <br />
                     The TypeScript code for this page is shown below:
