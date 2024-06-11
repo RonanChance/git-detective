@@ -94,7 +94,7 @@
             if (!login) {
                 unknownMapping[name] = repo;
                 unknownMapping[email] = repo;
-            } else if (login === username) {
+            } else if (login.toLowerCase === username.toLowerCase) {
                 if (!(name in usernameMapping)) usernameMapping[name] = repo;
                 if (!(email in emailMapping)) emailMapping[email] = repo;
             }
